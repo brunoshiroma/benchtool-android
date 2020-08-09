@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bench_result">Resultado do Bench</string>
+    <string name="bench_execute">Executar benchmark</string>
+    <string name="app_name">benchtool-android</string>
+    <string name="bench_iteration">Quantidade Iteração</string>
+    <string name="bench_repeat">Repetições</string>
+</resources>

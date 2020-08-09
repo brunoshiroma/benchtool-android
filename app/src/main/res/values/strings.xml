@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">benchtool-android</string>
+    <string name="bench_result">Bench Result</string>
+    <string name="bench_execute">Run Benchmark</string>
+    <string name="bench_iteration">Iteration Count</string>
+    <string name="bench_repeat">Repeats</string>
+</resources>
