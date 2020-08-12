@@ -3,3 +3,6 @@ It's run Java benchmark [benchtool-java](https://github.com/brunoshiroma/benchto
 
 And also native Golang benchrmark [benchtool-go](https://github.com/brunoshiroma/benchtool-go) 
 The native binaries are on app/src/main/jniLibs/[armbi]/*.so (it's a *.so because of android 10 security)
+
+# lib*.so name
+https://developer.android.com/ndk/guides/abis#aen

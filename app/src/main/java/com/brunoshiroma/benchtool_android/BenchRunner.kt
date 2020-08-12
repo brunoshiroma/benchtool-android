@@ -16,7 +16,7 @@ class BenchRunner{
             this.nativeLibDir = nativeLibDir
         }
 
-        fun run(platform: String, type: String, iteration: Int, repeat: Int, expectedResult: String) : Pair<Int, BigInteger>{
+        fun run(platform: String, type: String, iteration: Int, repeat: Int, expectedResult: String) : Triple<Int, BigInteger, String?>{
 
             try{
 
@@ -52,13 +52,12 @@ class BenchRunner{
 
                 val parts = nativeOutput.split(" ")
 
-                return Pair(parts[0].toInt(), BigInteger(parts[1].trim(), 10))
+                return Triple(parts[0].toInt(), BigInteger(parts[1].trim(), 10), null)
 
             }catch (e: Exception){
                 Log.e("NATIVE_EXEC", e.message, e)
+                return Triple(0, BigInteger.ZERO, e.message)
             }
-
-            return Pair(0, BigInteger.ZERO)
         }
     }
 

@@ -17,6 +17,8 @@ class BenchResult : BaseModel() {
 
     val config = ObservableField<BenchConfig>()
 
+    val errorMessage = ObservableField<String>()
+
     private suspend fun doWork() {
         val benchResult = BenchRunner.run(
             config.get()?.platform?.get() ?: "go",
@@ -26,6 +28,8 @@ class BenchResult : BaseModel() {
 
         result.set(benchResult.second)
         executionTime.set(benchResult.first)
+        errorMessage.set(benchResult.third)
+
     }
 
     fun onExecute(){
