@@ -19,6 +19,9 @@ android {
         versionName "0.1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testHandleProfiling true
+        testFunctionalTest true
+
 
         ndk {
             // Specifies the ABI configurations of your native

@@ -20,14 +20,14 @@ class BenchRunner{
 
             try{
 
-                var binaryName = File(this.nativeLibDir).list()?.get(0);
+                var binaryName = File(this.nativeLibDir).list()?.get(0)
 
                 val nativeApp = Runtime
                     .getRuntime()
                     .exec(arrayOf("${this.nativeLibDir}/$binaryName", type, iteration.toString(), repeat.toString()))
 
                 val reader = BufferedReader(InputStreamReader(nativeApp.inputStream))
-                var read: Int = 0
+                var read = 0
                 val buffer = CharArray(4096)
                 val output = StringBuffer()
                 val errorOutput = StringBuffer()

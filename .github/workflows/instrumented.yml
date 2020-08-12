@@ -1,0 +1,67 @@
+# from https://github.com/qbalsdon/currency_list_app/blob/master/.github/workflows/android-feature.yml
+
+name: Android Feature Branch CI
+# modified from https://github.com/uber/AutoDispose/blob/master/.github/workflows/ci.yml
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Run Test Suite (Unit [TODO Instrumented]) [JDK ${{ matrix.java_version }}]
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        java_version: [1.8]
+    steps:
+      # In order to have sha256sum on macOS, we need to install coreutils first
+      # Use this until coreutils or sha256sum are natively included in macOS on actions https://github.com/actions/virtual-environments/issues/90
+      - name: Install coreutils for macOS
+        run: brew install coreutils
+
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Check Gradle checksum
+        run: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ZacSweers/check-gradle-checksums/master/check-gradle-checksums.sh)"
+
+      - name: Install JDK ${{ matrix.java_version }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java_version }}
+
+      - name: Install Android SDK
+        uses: malinskiy/action-android/install-sdk@release/0.0.3
+
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Configure Gradle
+        # Initial gradle configuration, install dependencies, etc
+        run: ./gradlew help
+
+      - name: Build Project
+        run: ./gradlew assemble --stacktrace
+
+      - name: Run Unit Tests
+        run: ./gradlew test --stacktrace
+
+      - name: Run Instrumentation Tests
+        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.3
+        with:
+          cmd: ./gradlew connectedCheck --stacktrace
+          api: 30
+          tag: default
+          abi: x86
+
+      - name: Reclaim Memory
+        run: ./gradlew --stop && jps|grep -E 'KotlinCompileDaemon|GradleDaemon'| awk '{print $1}'| xargs kill -9
+
+      - name: Final Checks
+        run: ./gradlew check --stacktrace

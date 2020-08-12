@@ -5,7 +5,6 @@ import com.brunoshiroma.benchtool_android.BenchRunner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.math.BigInteger
 
 class BenchResult : BaseModel() {
@@ -19,7 +18,7 @@ class BenchResult : BaseModel() {
 
     val errorMessage = ObservableField<String>()
 
-    private suspend fun doWork() {
+    private fun doWork() {
         val benchResult = BenchRunner.run(
             config.get()?.platform?.get() ?: "go",
             config.get()?.type?.get() ?: "1",
