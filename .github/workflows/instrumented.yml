@@ -57,7 +57,7 @@ jobs:
         with:
           cmd: ./gradlew connectedCheck --stacktrace
           api: 29
-          tag: default
+          tag: google_apis
           abi: x86
 
       - name: Reclaim Memory
