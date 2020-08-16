@@ -1,5 +1,6 @@
 package com.brunoshiroma.benchtool_android
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +10,10 @@ import com.brunoshiroma.benchtool_android.databinding.ActivityMainBinding
 import com.brunoshiroma.benchtool_android.model.BenchConfig
 import com.brunoshiroma.benchtool_android.model.BenchResult
 import com.brunoshiroma.benchtool_android.model.Device
+import com.brunoshiroma.benchtool_android.runner.BenchRunnerUtil
+import com.google.android.material.bottomappbar.BottomAppBar
 import java.math.BigInteger
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,13 +33,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        BenchRunner.setup(this.applicationInfo.nativeLibraryDir)
+        val bottom: BottomAppBar = this.findViewById<BottomAppBar>(R.id.bottomAppBar)
+
+        BenchRunnerUtil.setup(this)
 
         benchResult.config.set(config)
         benchResult.executing.set(false)
 
         config.iteration.set("100000")
         config.repeat.set("10")
+        config.platform.set("go")
 
         binding.bench = benchResult
 
@@ -52,5 +59,16 @@ class MainActivity : AppCompatActivity() {
         }
         device.libDir.set(this.applicationInfo.nativeLibraryDir)
 
+        bottom.setOnMenuItemClickListener { item ->
+            when(item.itemId){
+                R.id.page_5 -> {
+                    val aboutActivity = Intent(this, AboutActivity::class.java)
+                    startActivity(aboutActivity)
+                    true
+                }
+                else -> false
+            }
+        }
     }
+
 }

@@ -5,4 +5,6 @@
     <string name="app_name">benchtool-android</string>
     <string name="bench_iteration">Quantidade Iteração</string>
     <string name="bench_repeat">Repetições</string>
+    <string name="bench_platform">Plataforma</string>
+    <string name="bench_about">Sobre</string>
 </resources>

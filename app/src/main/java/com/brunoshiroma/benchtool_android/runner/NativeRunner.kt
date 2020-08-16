@@ -1,30 +1,29 @@
-package com.brunoshiroma.benchtool_android
+package com.brunoshiroma.benchtool_android.runner
 
 import android.util.Log
 import java.io.BufferedReader
 import java.io.File
+import java.io.FilenameFilter
 import java.io.InputStreamReader
 import java.math.BigInteger
 
-class BenchRunner{
-
-    companion object{
+class NativeRunner : BenchRunner {
 
         private lateinit var nativeLibDir: String
 
-        fun setup(nativeLibDir: String) {
+        fun setup(nativeLibDir:String){
             this.nativeLibDir = nativeLibDir
         }
 
-        fun run(platform: String, type: String, iteration: Int, repeat: Int, expectedResult: String) : Triple<Int, BigInteger, String?>{
+        override fun run(platform: String, type: String, iteration: Int, repeat: Int, expectedResult: String) : Triple<Int, BigInteger, String?>{
 
             try{
 
-                var binaryName = File(this.nativeLibDir).list()?.get(0)
+                var binaryName = File(nativeLibDir).list(FilenameFilter { _, name -> name.contains(platform) })?.get(0)
 
                 val nativeApp = Runtime
                     .getRuntime()
-                    .exec(arrayOf("${this.nativeLibDir}/$binaryName", type, iteration.toString(), repeat.toString()))
+                    .exec(arrayOf("$nativeLibDir/$binaryName", type, iteration.toString(), repeat.toString()))
 
                 val reader = BufferedReader(InputStreamReader(nativeApp.inputStream))
                 var read = 0
@@ -59,6 +58,5 @@ class BenchRunner{
                 return Triple(0, BigInteger.ZERO, e.message)
             }
         }
-    }
 
 }

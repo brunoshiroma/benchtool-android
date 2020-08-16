@@ -1,7 +1,7 @@
 package com.brunoshiroma.benchtool_android.model
 
 import androidx.databinding.ObservableField
-import com.brunoshiroma.benchtool_android.BenchRunner
+import com.brunoshiroma.benchtool_android.runner.BenchRunnerUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ class BenchResult : BaseModel() {
     val errorMessage = ObservableField<String>()
 
     private fun doWork() {
-        val benchResult = BenchRunner.run(
+        val benchResult = BenchRunnerUtil.run(
             config.get()?.platform?.get() ?: "go",
             config.get()?.type?.get() ?: "1",
             config.get()?.iteration?.get()?.toInt() ?: 1000000,
@@ -32,6 +32,8 @@ class BenchResult : BaseModel() {
     }
 
     fun onExecute(){
+        result.set(BigInteger.ZERO)
+        executionTime.set(0)
         executing.set(true)
 
         GlobalScope.launch(Dispatchers.IO) {
