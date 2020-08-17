@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">benchtool-android DEBUG</string>
+    <string name="app_name" translatable="false">DEBUG benchtool-android</string>
+    <string name="bench_ads" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

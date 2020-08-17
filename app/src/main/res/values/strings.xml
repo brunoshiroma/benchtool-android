@@ -9,6 +9,7 @@
     <string name="bench_about">About</string>
     <string name="about_html" translatable="false"><![CDATA[
     <h1>Benchtool-android</h1>
+    <p>$VERSION - $DATE</p>
     <br>
     <br>
     <h3>
@@ -19,4 +20,5 @@
     <p>Golang project on <a href="https://github.com/brunoshiroma/benchtool-go">github</a></p>
     </h3>
 ]]></string>
+    <string name="bench_ads" translatable="false">ca-app-pub-2479811503008802/7308243918</string>
 </resources>

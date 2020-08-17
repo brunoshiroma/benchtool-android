@@ -1,3 +1,5 @@
+import java.time.LocalDateTime
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -7,16 +9,6 @@ android {
     compileSdkVersion 29
     buildToolsVersion "30.0.1"
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    // For Kotlin projects
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
-
     dataBinding {
         enabled = true
     }
@@ -25,8 +17,12 @@ android {
         applicationId "com.brunoshiroma.benchtool_android"
         minSdkVersion 16
         targetSdkVersion 29
-        versionCode 5008//because multi apk =(
-        versionName "0.2.0"
+        versionCode 5010//because multi apk =(
+        versionName "0.4.0"
+        multiDexEnabled true
+
+        buildConfigField 'String', 'BUILD_YEAR', '"' + LocalDateTime.now().format("yyyy") + '"'
+        buildConfigField 'String', 'BUILD_DATE', '"' + LocalDateTime.now().format("yyyyMMdd HH:mm:ss")  + '"'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testHandleProfiling true
@@ -67,10 +63,14 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.2.0'
 
+    implementation 'com.google.android.gms:play-services-ads:19.3.0'
+
     implementation 'androidx.core:core-ktx:1.3.1'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'com.brunoshiroma:benchtool-java:0.1.3'
 
