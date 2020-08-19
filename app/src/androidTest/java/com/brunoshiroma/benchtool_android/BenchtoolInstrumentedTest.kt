@@ -34,7 +34,14 @@ class BenchtoolInstrumentedTest {
 
     @Test
     fun aTestUseAppContext() {
-        assertEquals("com.brunoshiroma.benchtool_android", appContext.packageName)
+
+        var packageName : String = "com.brunoshiroma.benchtool_android"
+
+        if(BuildConfig.DEBUG) {
+          packageName += ".debug"
+        }
+
+        assertEquals(packageName, appContext.packageName)
     }
 
     @Test
