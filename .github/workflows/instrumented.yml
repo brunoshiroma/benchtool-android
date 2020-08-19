@@ -55,7 +55,7 @@ jobs:
       - name: Run Instrumentation Tests
         uses: malinskiy/action-android/emulator-run-cmd@release/0.0.3
         with:
-          cmd: ./gradlew connectedCheck --stacktrace
+          cmd: adb devices -l && ./gradlew connectedAndroidTest --stacktrace
           api: 29
           tag: google_apis
           abi: x86
