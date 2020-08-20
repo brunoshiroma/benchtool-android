@@ -144,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text='@{bench.executionTime != null ? bench.executionTime.toString() + "ms" : ""}'
+                android:text='@{bench.executionTime != null ? bench.executionTime.toString() + "ms" : "0ms"}'
                 android:textSize="32sp"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayoutField"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -190,6 +190,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
+            android:id="@+id/bench_button"
             android:layout_height="wrap_content"
             app:srcCompat="@android:drawable/ic_media_play"
             app:layout_anchor="@id/bottomAppBar"

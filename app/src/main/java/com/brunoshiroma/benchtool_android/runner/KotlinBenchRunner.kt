@@ -7,9 +7,9 @@ import java.util.*
 /*
 Kotlin Runner, can run any JVM language loaded by ART VM of android
  */
-class KotlinBenchRunner : BenchRunner {
+class KotlinBenchRunner : AbstractBenchRunner() {
 
-    override fun run(
+    override fun doRun(
         platform: String,
         type: String,
         iteration: Int,
@@ -23,6 +23,10 @@ class KotlinBenchRunner : BenchRunner {
             }
             else -> Triple(0, BigInteger.ZERO, "unknown bench $platform")
         }
+    }
+
+    override fun getName(): String {
+        return "KotlinRunner"
     }
 
 
@@ -44,7 +48,7 @@ class KotlinBenchRunner : BenchRunner {
         }
 
         for (i in 0 until repeat) {
-            val result = bench!!.run(iteration.toString())
+            val result = bench.run(iteration.toString())
             results.add(result as BenchResult<BigInteger>)
         }
 

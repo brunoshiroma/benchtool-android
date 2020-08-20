@@ -1,6 +1,7 @@
 package com.brunoshiroma.benchtool_android.runner
 
 import android.content.Context
+import androidx.test.espresso.IdlingResource
 import java.math.BigInteger
 
 object BenchRunnerUtil : BenchRunner{
@@ -15,6 +16,11 @@ object BenchRunnerUtil : BenchRunner{
         this.context = context
         nativeRunner.setup(context.applicationInfo.nativeLibraryDir)
     }
+
+    fun getIdle(): Array<IdlingResource>{
+        return arrayOf(kotlinBenchRunner,nativeRunner)
+    }
+
 
     override fun run(
         platform: String,

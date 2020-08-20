@@ -1,62 +1,83 @@
 package com.brunoshiroma.benchtool_android.runner
 
 import android.util.Log
+import androidx.test.espresso.IdlingResource
 import java.io.BufferedReader
 import java.io.File
 import java.io.FilenameFilter
 import java.io.InputStreamReader
 import java.math.BigInteger
+import java.util.concurrent.atomic.AtomicBoolean
 
-class NativeRunner : BenchRunner {
+class NativeRunner : AbstractBenchRunner() {
 
-        private lateinit var nativeLibDir: String
+    private lateinit var nativeLibDir: String
 
-        fun setup(nativeLibDir:String){
-            this.nativeLibDir = nativeLibDir
-        }
+    fun setup(nativeLibDir: String) {
+        this.nativeLibDir = nativeLibDir
+    }
 
-        override fun run(platform: String, type: String, iteration: Int, repeat: Int, expectedResult: String) : Triple<Int, BigInteger, String?>{
+    override fun doRun(
+        platform: String,
+        type: String,
+        iteration: Int,
+        repeat: Int,
+        expectedResult: String
+    ): Triple<Int, BigInteger, String?> {
 
-            try{
+        try {
 
-                var binaryName = File(nativeLibDir).list(FilenameFilter { _, name -> name.contains(platform) })?.get(0)
+            var binaryName =
+                File(nativeLibDir).list(FilenameFilter { _, name -> name.contains(platform) })
+                    ?.get(0)
 
-                val nativeApp = Runtime
-                    .getRuntime()
-                    .exec(arrayOf("$nativeLibDir/$binaryName", type, iteration.toString(), repeat.toString()))
+            val nativeApp = Runtime
+                .getRuntime()
+                .exec(
+                    arrayOf(
+                        "$nativeLibDir/$binaryName",
+                        type,
+                        iteration.toString(),
+                        repeat.toString()
+                    )
+                )
 
-                val reader = BufferedReader(InputStreamReader(nativeApp.inputStream))
-                var read = 0
-                val buffer = CharArray(4096)
-                val output = StringBuffer()
-                val errorOutput = StringBuffer()
-                while (reader.read(buffer).also({ read = it }) > 0) {
-                    output.append(buffer, 0, read)
-                }
-                reader.close()
-
-                val readerError = BufferedReader(InputStreamReader(nativeApp.errorStream))
-                while (readerError.read(buffer).also({ read = it }) > 0) {
-                    errorOutput.append(buffer, 0, read)
-                }
-                readerError.close()
-
-                // Waits for the command to finish.
-
-                // Waits for the command to finish.
-                nativeApp.waitFor()
-
-                val nativeOutput = output.toString()
-                Log.d("NATIVE_OUT", nativeOutput)
-
-                val parts = nativeOutput.split(" ")
-
-                return Triple(parts[0].toInt(), BigInteger(parts[1].trim(), 10), null)
-
-            }catch (e: Exception){
-                Log.e("NATIVE_EXEC", e.message, e)
-                return Triple(0, BigInteger.ZERO, e.message)
+            val reader = BufferedReader(InputStreamReader(nativeApp.inputStream))
+            var read = 0
+            val buffer = CharArray(4096)
+            val output = StringBuffer()
+            val errorOutput = StringBuffer()
+            while (reader.read(buffer).also({ read = it }) > 0) {
+                output.append(buffer, 0, read)
             }
+            reader.close()
+
+            val readerError = BufferedReader(InputStreamReader(nativeApp.errorStream))
+            while (readerError.read(buffer).also({ read = it }) > 0) {
+                errorOutput.append(buffer, 0, read)
+            }
+            readerError.close()
+
+            // Waits for the command to finish.
+
+            // Waits for the command to finish.
+            nativeApp.waitFor()
+
+            val nativeOutput = output.toString()
+            Log.d("NATIVE_OUT", nativeOutput)
+
+            val parts = nativeOutput.split(" ")
+
+            return Triple(parts[0].toInt(), BigInteger(parts[1].trim(), 10), null)
+
+        } catch (e: Exception) {
+            Log.e("NATIVE_EXEC", e.message, e)
+            return Triple(0, BigInteger.ZERO, e.message)
         }
+    }
+
+    override fun getName(): String {
+        return "NativeRunner"
+    }
 
 }
