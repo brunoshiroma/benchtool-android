@@ -1,2 +1,3 @@
+include ':benchtool_rust'
 include ':app'
 rootProject.name = "benchtool-android"

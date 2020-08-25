@@ -21,4 +21,7 @@
     </h3>
 ]]></string>
     <string name="bench_ads" translatable="false">ca-app-pub-2479811503008802/7308243918</string>
+    <string name="bench_iteration_large_msg">Continue with large Bench, it take a long time to finish</string>
+    <string name="bench_large_continue">Continue anyway</string>
+    <string name="title_rustfeature">Rust Benchtool</string>
 </resources>
