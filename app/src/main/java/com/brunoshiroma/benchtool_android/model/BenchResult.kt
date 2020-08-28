@@ -40,10 +40,10 @@ class BenchResult : BaseModel() {
         val tooLargeString = BenchtoolApplication.app.value.getString(R.string.bench_iteration_large_msg)
         val continueString = BenchtoolApplication.app.value.getString(R.string.bench_large_continue)
 
-        if(config?.get()?.acceptLargeIteration?.get() != true && config.get()?.iteration?.get()?.toInt()!! > 100000){
+        if(config.get()?.acceptLargeIteration?.get() != true && config.get()?.iteration?.get()?.toInt()!! > 100000){
             Snackbar.make(view, tooLargeString, Snackbar.LENGTH_SHORT)
                 .setAction(continueString){
-                    config?.get()?.acceptLargeIteration?.set(true)
+                    config.get()?.acceptLargeIteration?.set(true)
                 }
                 .show()
             return

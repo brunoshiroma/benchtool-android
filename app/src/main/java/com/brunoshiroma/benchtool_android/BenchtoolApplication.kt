@@ -1,11 +1,11 @@
 package com.brunoshiroma.benchtool_android
 
-import android.app.Application
 import android.content.pm.ApplicationInfo
+import com.google.android.play.core.splitcompat.SplitCompatApplication
 import com.google.android.play.core.splitinstall.SplitInstallManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 
-class BenchtoolApplication : Application(), Lazy<BenchtoolApplication> {
+class BenchtoolApplication : SplitCompatApplication(), Lazy<BenchtoolApplication> {
 
     companion object{
         lateinit var appInfo: ApplicationInfo

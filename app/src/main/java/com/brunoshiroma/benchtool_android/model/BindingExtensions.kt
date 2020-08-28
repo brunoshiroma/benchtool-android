@@ -1,7 +1,5 @@
 package com.brunoshiroma.benchtool_android.model
 
-import android.os.Build
-import android.text.Editable
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.databinding.BindingAdapter
