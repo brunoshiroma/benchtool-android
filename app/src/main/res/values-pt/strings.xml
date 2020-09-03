@@ -7,4 +7,6 @@
     <string name="bench_repeat">Repetições</string>
     <string name="bench_platform">Plataforma</string>
     <string name="bench_about">Sobre</string>
+    <string name="bench_iteration_large_msg">Continuar com um bench grande, isso vai levar um longo tempo para acabar</string>
+    <string name="bench_large_continue">Continuar mesmo assim</string>
 </resources>

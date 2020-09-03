@@ -18,7 +18,12 @@
     <p>Java project on <a href="https://github.com/brunoshiroma/benchtool-java">github</a></p>
     <br>
     <p>Golang project on <a href="https://github.com/brunoshiroma/benchtool-go">github</a></p>
+    <br>
+    <p>Rust project on <a href="https://github.com/brunoshiroma/benchtool-rust">github</a></p>
     </h3>
 ]]></string>
     <string name="bench_ads" translatable="false">ca-app-pub-2479811503008802/7308243918</string>
+    <string name="bench_iteration_large_msg">Continue with large Bench, it take a long time to finish</string>
+    <string name="bench_large_continue">Continue anyway</string>
+    <string name="title_rustfeature" translatable="false">Rust Benchtool</string>
 </resources>

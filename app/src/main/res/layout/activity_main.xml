@@ -194,9 +194,21 @@
             android:layout_height="wrap_content"
             app:srcCompat="@android:drawable/ic_media_play"
             app:layout_anchor="@id/bottomAppBar"
-            android:enabled="@{!bench.executing}"
-            android:onClick="@{() -> bench.onExecute()}"
+            android:enabled="@{!bench.executing &amp;&amp; bench.config.downloadOK}"
+            android:onClick="@{(view) -> bench.onExecute(view)}"
             />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="76dp"
+            android:layout_height="65dp"
+            app:layout_anchor="@+id/bench_button"
+            android:max="@{bench.config.downloadSize}"
+            android:progress="@{bench.config.downloaded}"
+            android:indeterminate="false"
+            android:visibility="@{bench.config.downloaded > 0 ? view.VISIBLE : view.GONE}"
+            app:layout_anchorGravity="center" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

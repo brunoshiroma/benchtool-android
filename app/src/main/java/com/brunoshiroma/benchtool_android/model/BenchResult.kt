@@ -1,7 +1,11 @@
 package com.brunoshiroma.benchtool_android.model
 
+import android.view.View
 import androidx.databinding.ObservableField
+import com.brunoshiroma.benchtool_android.BenchtoolApplication
+import com.brunoshiroma.benchtool_android.R
 import com.brunoshiroma.benchtool_android.runner.BenchRunnerUtil
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,7 +35,20 @@ class BenchResult : BaseModel() {
 
     }
 
-    fun onExecute(){
+    fun onExecute(view: View){
+
+        val tooLargeString = BenchtoolApplication.app.value.getString(R.string.bench_iteration_large_msg)
+        val continueString = BenchtoolApplication.app.value.getString(R.string.bench_large_continue)
+
+        if(config.get()?.acceptLargeIteration?.get() != true && config.get()?.iteration?.get()?.toInt()!! > 100000){
+            Snackbar.make(view, tooLargeString, Snackbar.LENGTH_SHORT)
+                .setAction(continueString){
+                    config.get()?.acceptLargeIteration?.set(true)
+                }
+                .show()
+            return
+        }
+
         result.set(BigInteger.ZERO)
         executionTime.set(0)
         executing.set(true)

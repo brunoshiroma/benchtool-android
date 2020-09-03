@@ -10,8 +10,8 @@ import com.brunoshiroma.benchtool_android.databinding.ActivityMainBinding
 import com.brunoshiroma.benchtool_android.model.BenchConfig
 import com.brunoshiroma.benchtool_android.model.BenchResult
 import com.brunoshiroma.benchtool_android.model.Device
-import com.brunoshiroma.benchtool_android.runner.BenchRunnerUtil
 import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.play.core.splitcompat.SplitCompat
 import java.math.BigInteger
 
 
@@ -37,8 +37,6 @@ class MainActivity : AppCompatActivity() {
         )
 
         val bottom: BottomAppBar = this.findViewById<BottomAppBar>(R.id.bottomAppBar)
-
-        BenchRunnerUtil.setup(this)
 
         benchResult.config.set(config)
         benchResult.executing.set(false)
@@ -72,6 +70,9 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        val success = SplitCompat.installActivity(this)
+
     }
 
 }

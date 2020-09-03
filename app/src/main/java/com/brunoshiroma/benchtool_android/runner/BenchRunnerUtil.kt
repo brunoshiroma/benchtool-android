@@ -1,21 +1,13 @@
 package com.brunoshiroma.benchtool_android.runner
 
-import android.content.Context
 import androidx.test.espresso.IdlingResource
 import java.math.BigInteger
 
 object BenchRunnerUtil : BenchRunner{
 
-    private lateinit var context: Context
-
     private val kotlinBenchRunner = KotlinBenchRunner()
 
     private val nativeRunner = NativeRunner()
-
-    fun setup(context: Context){
-        this.context = context
-        nativeRunner.setup(context.applicationInfo.nativeLibraryDir)
-    }
 
     fun getIdle(): Array<IdlingResource>{
         return arrayOf(kotlinBenchRunner,nativeRunner)
