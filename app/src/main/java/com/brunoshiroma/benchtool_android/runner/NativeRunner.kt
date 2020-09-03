@@ -40,7 +40,7 @@ class NativeRunner : AbstractBenchRunner() {
                 val buffer = CharArray(4096)
                 val output = StringBuffer()
                 val errorOutput = StringBuffer()
-                while (reader.read(buffer).also({ read = it }) > 0) {
+                while (reader.read(buffer).also { read = it } > 0) {
                     output.append(buffer, 0, read)
                 }
                 reader.close()
@@ -75,9 +75,10 @@ class NativeRunner : AbstractBenchRunner() {
                 val result : String =
                     nativeBinderMethod.invoke(nativeBinderInstance, iteration, repeat.toInt(), type.toInt()) as String
 
+                //the result should be '1 123456'
                 val parts = result.split(" ")
-                val execTime : Int = parts[0].toInt()
-                val bigIntegerResult : BigInteger = BigInteger(parts[1], 10)
+                val execTime : Int = parts[0].trim().toInt()
+                val bigIntegerResult : BigInteger = BigInteger(parts[1].trim(), 10)
 
                 return Triple(execTime, bigIntegerResult, null)
             }

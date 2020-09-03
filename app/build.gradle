@@ -18,8 +18,8 @@ android {
         applicationId "com.brunoshiroma.benchtool_android"
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.targetSdkVersion
-        versionCode 5032//because multi apk =(
-        versionName "0.5.21"
+        versionCode 5033//because multi apk =(
+        versionName "0.5.22"
 
         multiDexEnabled true
 
