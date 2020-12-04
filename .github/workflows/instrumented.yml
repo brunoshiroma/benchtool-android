@@ -3,6 +3,7 @@
 name: Android Feature Branch CI
 # modified from https://github.com/uber/AutoDispose/blob/master/.github/workflows/ci.yml
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
