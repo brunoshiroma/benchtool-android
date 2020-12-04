@@ -38,7 +38,7 @@ jobs:
           java-version: ${{ matrix.java_version }}
 
       - name: Install Android SDK
-        uses: malinskiy/action-android/install-sdk@release/0.0.3
+        uses: malinskiy/action-android/install-sdk@release/0.0.9
 
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
@@ -54,7 +54,7 @@ jobs:
         run: ./gradlew test --stacktrace
 
       - name: Run Instrumentation Tests
-        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.3
+        uses: malinskiy/action-android/emulator-run-cmd@release/0.0.9
         with:
           cmd: ./gradlew connectedAndroidTest --stacktrace
           api: 25
