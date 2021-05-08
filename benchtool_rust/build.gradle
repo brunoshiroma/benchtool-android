@@ -40,3 +40,42 @@ dependencies {
 
     implementation 'net.java.dev.jna:jna:5.6.0@aar'
 }
+
+task buildNatives{
+    exec{
+        workingDir = '../benchtool-rust-repo'
+        commandLine = "cargo build --target aarch64-linux-android --release".split(" ")
+    }
+    exec{
+        workingDir = '../benchtool-rust-repo'
+        commandLine = "cargo build --target i686-linux-android --release".split(" ")
+    }
+    exec{
+        workingDir = '../benchtool-rust-repo'
+        commandLine = "cargo build --target armv7-linux-androideabi --release".split(" ")
+    }
+    exec{
+        workingDir = '../benchtool-rust-repo'
+        commandLine = "cargo build --target x86_64-linux-android --release".split(" ")
+    }
+}
+
+task copyBuildNatives{
+    dependsOn buildNatives
+    exec{
+        workingDir = '../benchtool-rust-repo'
+        commandLine = "cp target/aarch64-linux-android/release/libbenchtoolrust.so ../benchtool_rust/src/main/jniLibs/arm64-v8a/".split(" ")
+    }
+    exec{
+        workingDir = '../benchtool-rust-repo'
+        commandLine = "cp target/armv7-linux-androideabi/release/libbenchtoolrust.so ../benchtool_rust/src/main/jniLibs/armeabi-v7a/".split(" ")
+    }
+    exec{
+        workingDir = '../benchtool-rust-repo'
+        commandLine = "cp target/i686-linux-android/release/libbenchtoolrust.so ../benchtool_rust/src/main/jniLibs/x86/".split(" ")
+    }
+    exec{
+        workingDir = '../benchtool-rust-repo'
+        commandLine = "cp target/x86_64-linux-android/release/libbenchtoolrust.so ../benchtool_rust/src/main/jniLibs/x86_64/".split(" ")
+    }
+}

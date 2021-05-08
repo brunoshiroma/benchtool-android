@@ -16,3 +16,5 @@
 .idea
 app/release
 bench.apks
+
+benchtool-rust-repo

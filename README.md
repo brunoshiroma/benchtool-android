@@ -22,3 +22,11 @@ https://github.com/java-native-access/jna/blob/master/www/FrequentlyAskedQuestio
 java -jar bundletool-all-1.1.0.jar build-apks --local-testing --bundle app/build/outputs/bundle/debug/app-debug.aab --output bench.apks
 java -jar bundletool-all-1.1.0.jar install-apks --apks bench.apks
 ```
+
+## Build Native Rust
+Needs rust and cross compile android configured
+```bash
+git submodule init
+git submodule update
+./gradlew benchtool_rust:copyBuildNatives
+```

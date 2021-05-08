@@ -1,0 +1,3 @@
+[submodule "benchtool-rust-repo"]
+	path = benchtool-rust-repo
+	url = https://github.com/brunoshiroma/benchtool-rust.git
