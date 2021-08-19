@@ -1,3 +1,4 @@
+[![Build Status](https://app.bitrise.io/app/d23bee8cbb51aa0a/status.svg?token=09WGNXyDkXF-NIG5aGBRew)](https://app.bitrise.io/app/d23bee8cbb51aa0a)
 # Simple benchmarktool
 It's run Java benchmark [benchtool-java](https://github.com/brunoshiroma/benchtool-java)
 
