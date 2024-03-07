@@ -12,10 +12,24 @@ import com.brunoshiroma.benchtool_android.model.BenchResult
 import com.brunoshiroma.benchtool_android.model.Device
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.play.core.splitcompat.SplitCompat
+import com.sun.jna.Library
+import com.sun.jna.Native
+import com.sun.jna.NativeLibrary
+import dalvik.system.BaseDexClassLoader
 import java.math.BigInteger
 
 
 class MainActivity : AppCompatActivity() {
+
+    interface CLibrary : Library {
+        fun benchtoolGoCall(iteration: Int, repeat: Int, bench_type: Int) : String
+
+        companion object {
+            val INSTANCE = Native.load("benchtool-go-lib-android-arm64",
+                CLibrary::class.java
+            ) as CLibrary
+        }
+    }
 
     private val benchResult : BenchResult by lazy{
         ViewModelProvider(this).get(BenchResult::class.java)
@@ -30,6 +44,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
+
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(
             this,

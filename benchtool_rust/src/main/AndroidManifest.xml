@@ -1,11 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="com.brunoshiroma.benchtool_android.benchtool_rust"
-    >
+    xmlns:dist="http://schemas.android.com/apk/distribution">
 
     <application
-        android:hasCode="true"
-        android:extractNativeLibs="true"/>
+        android:hasCode="true" />
 
     <dist:module
         dist:instant="false"
