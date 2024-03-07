@@ -2,7 +2,10 @@ package com.brunoshiroma.benchtool_android.runner
 
 import android.util.Log
 import com.brunoshiroma.benchtool_android.BenchtoolApplication
+import com.brunoshiroma.benchtool_android.MainActivity
 import com.google.android.play.core.splitinstall.SplitInstallHelper
+import com.sun.jna.Native
+import com.sun.jna.NativeLibrary
 import dalvik.system.BaseDexClassLoader
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -20,6 +23,20 @@ class NativeRunner : AbstractBenchRunner() {
 
         try {
             if ("go" == platform) {//shipped with base apk
+
+                val binaryName2 =
+                    (BenchtoolApplication.app.value.classLoader as BaseDexClassLoader).findLibrary("benchtool-go-lib-android-arm64")
+
+                val libPath = binaryName2.substring(0, binaryName2.lastIndexOf("/"))
+
+                NativeLibrary.addSearchPath("benchtool-go-lib-android-arm64", libPath)
+
+
+                val instance = Native.load("benchtool-go-lib-android-arm64",
+                    MainActivity.CLibrary::class.java
+                ) as MainActivity.CLibrary
+
+                val result = instance.benchtoolGoCall(1, 2, 3)
 
                 var binaryName =
                     (BenchtoolApplication.app.value.classLoader as BaseDexClassLoader).findLibrary("benchtool-${platform}")
