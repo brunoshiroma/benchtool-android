@@ -6,7 +6,7 @@ buildscript {
         ndkVersion : "21.3.6528147",
         compileSdkVersion: 34,
         minSdkVersion : 19,
-        targetSdkVersion : 31,
+        targetSdkVersion : 34,
     ]
 
 
@@ -30,7 +30,7 @@ allprojects {
             url = uri("https://maven.pkg.github.com/brunoshiroma/benchtool-java")
             credentials {
                 username = "brunoshiroma"
-                password = "$mavenPassword" ?: System.getenv("GITHUB_TOKEN")
+                password = System.getenv("GITHUB_TOKEN")
 
             }
         }
