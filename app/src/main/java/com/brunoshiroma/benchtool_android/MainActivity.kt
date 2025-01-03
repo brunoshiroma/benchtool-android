@@ -14,8 +14,6 @@ import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.sun.jna.Library
 import com.sun.jna.Native
-import com.sun.jna.NativeLibrary
-import dalvik.system.BaseDexClassLoader
 import java.math.BigInteger
 
 

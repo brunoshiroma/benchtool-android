@@ -1,7 +1,9 @@
 package com.brunoshiroma.benchtool_android.benchtool_rust
 
+import android.os.Build
 import android.util.Log
 import androidx.annotation.Keep
+import androidx.annotation.RequiresApi
 import com.brunoshiroma.benchtool_android.BenchtoolApplication
 import com.sun.jna.Library
 import com.sun.jna.Native
@@ -21,12 +23,11 @@ class Binder {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     fun execute(iteration: Int, repeat: Int, bench_type: Int) : String {
         Log.d("RUST_BINDER", "STARTING")
 
-        val binaryName =
-            (BenchtoolApplication.app.value.classLoader as BaseDexClassLoader).findLibrary("benchtoolrust")
-
+        val binaryName = "ok"
         val libPath = binaryName.substring(0, binaryName.lastIndexOf("/"))
 
         NativeLibrary.addSearchPath("benchtoolrust", libPath)
