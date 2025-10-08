@@ -195,7 +195,7 @@
             app:srcCompat="@android:drawable/ic_media_play"
             app:layout_anchor="@id/bottomAppBar"
             android:enabled="@{!bench.executing &amp;&amp; bench.config.downloadOK}"
-            android:onClick="@{(view) -> bench.onExecute(view)}"
+            android:onClick="@{(fab) -> bench.onExecute(fab)}"
             />
 
         <ProgressBar
