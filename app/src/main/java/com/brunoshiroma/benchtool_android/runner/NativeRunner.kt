@@ -1,5 +1,6 @@
 package com.brunoshiroma.benchtool_android.runner
 
+import android.os.Build
 import android.util.Log
 import com.brunoshiroma.benchtool_android.BenchtoolApplication
 import com.brunoshiroma.benchtool_android.MainActivity
@@ -24,59 +25,11 @@ class NativeRunner : AbstractBenchRunner() {
         try {
             if ("go" == platform) {//shipped with base apk
 
-                val binaryName2 =
-                    (BenchtoolApplication.app.value.classLoader as BaseDexClassLoader).findLibrary("benchtool-go-lib-android-arm64")
+                val golangBenchRunner = GolangBenchRunner()
 
-                val libPath = binaryName2.substring(0, binaryName2.lastIndexOf("/"))
+                val result = golangBenchRunner.execute(iteration, repeat.toInt(), type.toInt())
 
-                NativeLibrary.addSearchPath("benchtool-go-lib-android-arm64", libPath)
-
-
-                val instance = Native.load("benchtool-go-lib-android-arm64",
-                    MainActivity.CLibrary::class.java
-                ) as MainActivity.CLibrary
-
-                val result = instance.benchtoolGoCall(1, 2, 3)
-
-                var binaryName =
-                    (BenchtoolApplication.app.value.classLoader as BaseDexClassLoader).findLibrary("benchtool-${platform}")
-
-                val nativeApp = Runtime
-                    .getRuntime()
-                    .exec(
-                        arrayOf(
-                            binaryName,
-                            type,
-                            iteration.toString(),
-                            repeat.toString()
-                        )
-                    )
-
-                val reader = BufferedReader(InputStreamReader(nativeApp.inputStream))
-                var read = 0
-                val buffer = CharArray(4096)
-                val output = StringBuffer()
-                val errorOutput = StringBuffer()
-                while (reader.read(buffer).also { read = it } > 0) {
-                    output.append(buffer, 0, read)
-                }
-                reader.close()
-
-                val readerError = BufferedReader(InputStreamReader(nativeApp.errorStream))
-                while (readerError.read(buffer).also { read = it } > 0) {
-                    errorOutput.append(buffer, 0, read)
-                }
-                readerError.close()
-
-                // Waits for the command to finish.
-
-                // Waits for the command to finish.
-                nativeApp.waitFor()
-
-                val nativeOutput = output.toString()
-                Log.d("NATIVE_OUT", nativeOutput)
-
-                val parts = nativeOutput.split(" ")
+                val parts = result.split(" ")
 
                 return Triple(parts[0].toInt(), BigInteger(parts[1].trim(), 10), null)
             } else {//from play core
