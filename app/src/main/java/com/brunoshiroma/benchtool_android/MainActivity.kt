@@ -3,6 +3,7 @@ package com.brunoshiroma.benchtool_android
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -14,8 +15,6 @@ import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.play.core.splitcompat.SplitCompat
 import com.sun.jna.Library
 import com.sun.jna.Native
-import com.sun.jna.NativeLibrary
-import dalvik.system.BaseDexClassLoader
 import java.math.BigInteger
 
 
@@ -44,8 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
+        enableEdgeToEdge()
 
         super.onCreate(savedInstanceState)
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(
@@ -70,11 +68,7 @@ class MainActivity : AppCompatActivity() {
 
         benchResult.result.set(BigInteger.TEN)
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            device.osArch.set(Build.SUPPORTED_ABIS.joinToString(", "))
-        } else {
-            device.osArch.set(Build.CPU_ABI)
-        }
+        device.osArch.set(Build.SUPPORTED_ABIS.joinToString(", "))
         device.libDir.set(this.applicationInfo.nativeLibraryDir)
 
         bottom.setOnMenuItemClickListener { item ->
