@@ -26,7 +26,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -40,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.brunoshiroma.benchtool_android.BenchtoolApplication
+import com.brunoshiroma.benchtool_android.BuildConfig
 import com.brunoshiroma.benchtool_android.R
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -57,6 +57,10 @@ fun AboutContent(modifier: Modifier = Modifier,
     adView.adUnitId = adUnitId
     val adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(LocalContext.current, 360)
     adView.setAdSize(adSize)
+
+    val aboutContent = stringResource(R.string.about_html)
+        .replace("\$VERSION", BuildConfig.VERSION_NAME)
+        .replace("\$DATE", BuildConfig.BUILD_DATE)
 
     Scaffold(
         topBar = {
@@ -90,7 +94,7 @@ fun AboutContent(modifier: Modifier = Modifier,
                         .weight(0.5F),
                 ){
                     Text(
-                        AnnotatedString.fromHtml(htmlString = stringResource(R.string.about_html),
+                        AnnotatedString.fromHtml(htmlString = aboutContent,
                             linkStyles = TextLinkStyles(style = SpanStyle(
                                 textDecoration = TextDecoration.Underline,
                                 fontStyle = FontStyle.Italic

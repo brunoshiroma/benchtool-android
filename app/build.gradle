@@ -34,8 +34,8 @@ android {
         applicationId "com.brunoshiroma.benchtool_android"
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.targetSdkVersion
-        versionCode 8010//because multi apk =(
-        versionName "0.8.1"
+        versionCode 8030//because multi apk =(
+        versionName "0.8.3"
 
         multiDexEnabled true
 
