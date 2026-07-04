@@ -1,5 +1,6 @@
 package com.brunoshiroma.benchtool_android.model
 
+import androidx.lifecycle.viewModelScope
 import com.brunoshiroma.benchtool_android.runner.BenchRunnerUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

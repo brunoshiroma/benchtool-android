@@ -1,6 +1,7 @@
 package com.brunoshiroma.benchtool_android.model
 
 import android.widget.Toast
+import androidx.lifecycle.viewModelScope
 import com.brunoshiroma.benchtool_android.BenchtoolApplication
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
