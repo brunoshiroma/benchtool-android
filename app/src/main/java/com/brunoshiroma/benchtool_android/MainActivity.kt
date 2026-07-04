@@ -197,7 +197,7 @@ fun MainScreen(
 
             if (!errorMessage.isNullOrEmpty()) {
                 Text(
-                    text = errorMessage!!,
+                    text = errorMessage.orEmpty(),
                     modifier = Modifier
                         .align(Alignment.TopStart)
                         .padding(start = 36.dp, top = 40.dp)
