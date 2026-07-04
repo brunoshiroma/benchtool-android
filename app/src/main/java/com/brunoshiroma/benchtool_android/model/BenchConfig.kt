@@ -1,37 +1,38 @@
 package com.brunoshiroma.benchtool_android.model
 
 import android.widget.Toast
-import androidx.databinding.Observable
-import androidx.databinding.ObservableField
+import androidx.lifecycle.viewModelScope
 import com.brunoshiroma.benchtool_android.BenchtoolApplication
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 class BenchConfig : BaseModel() {
 
-    val platform = ObservableField<String>()
+    val platform = MutableStateFlow("go")
 
-    val type = ObservableField<String>()
+    val type = MutableStateFlow("1")
 
-    val iteration = ObservableField<String>()
+    val iteration = MutableStateFlow("100000")
 
-    val repeat = ObservableField<String>()
+    val repeat = MutableStateFlow("10")
 
-    val acceptLargeIteration = ObservableField<Boolean>()
+    val acceptLargeIteration = MutableStateFlow(false)
 
-    val downloadOK = ObservableField<Boolean>()
+    val downloadOK = MutableStateFlow(true)
 
-    val downloadSize = ObservableField<Int>()
+    val downloadSize = MutableStateFlow(0)
 
-    val downloaded = ObservableField<Int>()
+    val downloaded = MutableStateFlow(0)
 
-    init{
-        platform.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(observable: Observable?, i: Int) {
-                when(platform.get()){
+    init {
+        viewModelScope.launch {
+            platform.collect { p ->
+                when (p) {
                     "rust" -> {
-                        downloadOK.set(false)
-                        if(!BenchtoolApplication.manager.installedModules.contains("benchtool_rust")){
+                        downloadOK.value = false
+                        if (!BenchtoolApplication.manager.installedModules.contains("benchtool_rust")) {
 
                             val installRequest = SplitInstallRequest
                                 .newBuilder()
@@ -43,56 +44,53 @@ class BenchConfig : BaseModel() {
                             Toast.makeText(BenchtoolApplication.app.value, "Download benchtool_rust", Toast.LENGTH_SHORT).show()
 
                             installTask.addOnCompleteListener {
-                                if(installTask.isSuccessful){
+                                if (installTask.isSuccessful) {
 
-                                    BenchtoolApplication.manager.registerListener{
-                                        when(it.status()){
+                                    BenchtoolApplication.manager.registerListener {
+                                        when (it.status()) {
                                             SplitInstallSessionStatus.INSTALLED -> {
-                                                downloaded.set(0)
-                                                downloadSize.set(0)
-                                                downloadOK.set(true)
+                                                downloaded.value = 0
+                                                downloadSize.value = 0
+                                                downloadOK.value = true
                                                 Toast
                                                     .makeText(BenchtoolApplication.app.value, "Download OK", Toast.LENGTH_SHORT)
                                                     .show()
                                             }
                                             SplitInstallSessionStatus.FAILED -> {
-                                                downloaded.set(0)
-                                                downloadSize.set(0)
-                                                downloadOK.set(false)
+                                                downloaded.value = 0
+                                                downloadSize.value = 0
+                                                downloadOK.value = false
                                                 Toast
                                                     .makeText(BenchtoolApplication.app.value, "Erro ${it.errorCode()}", Toast.LENGTH_SHORT)
                                                     .show()
                                             }
                                             SplitInstallSessionStatus.DOWNLOADING -> {
-                                                downloadSize.set(it.totalBytesToDownload().toInt())
-                                                downloaded.set(it.bytesDownloaded().toInt())
+                                                downloadSize.value = it.totalBytesToDownload().toInt()
+                                                downloaded.value = it.bytesDownloaded().toInt()
                                             }
                                         }
-
                                     }
 
                                 } else {
                                     val message = installTask.exception?.message
                                     Toast.makeText(BenchtoolApplication.app.value, "ERROR $message", Toast.LENGTH_SHORT).show()
-                                    downloadOK.set(false)
+                                    downloadOK.value = false
                                 }
-
                             }
-                        } else{
-                            downloadOK.set(true)
-                            downloaded.set(0)
-                            downloadSize.set(0)
+                        } else {
+                            downloadOK.value = true
+                            downloaded.value = 0
+                            downloadSize.value = 0
                         }
                     }
                     else -> {
-                        downloadOK.set(true)
-                        downloaded.set(0)
-                        downloadSize.set(0)
+                        downloadOK.value = true
+                        downloaded.value = 0
+                        downloadSize.value = 0
                     }
                 }
             }
-        })
-
+        }
     }
 
 }

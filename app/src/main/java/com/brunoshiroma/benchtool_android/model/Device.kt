@@ -1,15 +1,15 @@
 package com.brunoshiroma.benchtool_android.model
 
-import androidx.databinding.ObservableField
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class Device : BaseModel() {
 
-    val cpu = ObservableField<String>()
+    val cpu = MutableStateFlow("")
 
-    val osArch = ObservableField<String>()
+    val osArch = MutableStateFlow("")
 
-    val osVersion = ObservableField<String>()
+    val osVersion = MutableStateFlow("")
 
-    val libDir = ObservableField<String>()
+    val libDir = MutableStateFlow("")
 
 }
