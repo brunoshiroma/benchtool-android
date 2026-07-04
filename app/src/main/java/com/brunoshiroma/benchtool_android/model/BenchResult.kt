@@ -1,64 +1,49 @@
 package com.brunoshiroma.benchtool_android.model
 
-import android.view.View
-import androidx.databinding.ObservableField
-import com.brunoshiroma.benchtool_android.BenchtoolApplication
-import com.brunoshiroma.benchtool_android.R
 import com.brunoshiroma.benchtool_android.runner.BenchRunnerUtil
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.math.BigInteger
 
 class BenchResult : BaseModel() {
 
-    val result = ObservableField<BigInteger>()
-    val platform = ObservableField<String>()
-    val executionTime = ObservableField<Int>()
-    val executing = ObservableField<Boolean>()
+    val result = MutableStateFlow(BigInteger.ZERO)
+    val executionTime = MutableStateFlow<Int?>(null)
+    val executing = MutableStateFlow(false)
+    val errorMessage = MutableStateFlow<String?>(null)
+    val showLargeIterationWarning = MutableStateFlow(false)
 
-    val config = ObservableField<BenchConfig>()
-
-    val errorMessage = ObservableField<String>()
-
-    private fun doWork() {
-        val benchResult = BenchRunnerUtil.run(
-            config.get()?.platform?.get() ?: "go",
-            config.get()?.type?.get() ?: "1",
-            config.get()?.iteration?.get()?.toInt() ?: 1000000,
-            config.get()?.repeat?.get()?.toInt() ?: 5, "")
-
-        result.set(benchResult.second)
-        executionTime.set(benchResult.first)
-        errorMessage.set(benchResult.third)
-
+    private fun doWork(platform: String, type: String, iteration: Int, repeat: Int) {
+        val benchResult = BenchRunnerUtil.run(platform, type, iteration, repeat, "")
+        result.value = benchResult.second
+        executionTime.value = benchResult.first
+        errorMessage.value = benchResult.third
     }
 
-    fun onExecute(view: View){
+    fun onExecute(config: BenchConfig) {
+        val platform = config.platform.value
+        val type = config.type.value
+        val iteration = config.iteration.value.toIntOrNull() ?: 1000000
+        val repeat = config.repeat.value.toIntOrNull() ?: 5
 
-        val tooLargeString = BenchtoolApplication.app.value.getString(R.string.bench_iteration_large_msg)
-        val continueString = BenchtoolApplication.app.value.getString(R.string.bench_large_continue)
-
-        if(config.get()?.acceptLargeIteration?.get() != true && config.get()?.iteration?.get()?.toInt()!! > 100000){
-            Snackbar.make(view, tooLargeString, Snackbar.LENGTH_SHORT)
-                .setAction(continueString){
-                    config.get()?.acceptLargeIteration?.set(true)
-                }
-                .show()
+        if (!config.acceptLargeIteration.value && iteration > 100000) {
+            showLargeIterationWarning.value = true
             return
         }
 
-        result.set(BigInteger.ZERO)
-        executionTime.set(0)
-        executing.set(true)
+        result.value = BigInteger.ZERO
+        executionTime.value = 0
+        executing.value = true
 
-        GlobalScope.launch(Dispatchers.IO) {
-            doWork()
-            executing.set(false)
+        viewModelScope.launch(Dispatchers.IO) {
+            doWork(platform, type, iteration, repeat)
+            executing.value = false
         }
+    }
 
-
+    fun dismissLargeIterationWarning() {
+        showLargeIterationWarning.value = false
     }
 
 }
